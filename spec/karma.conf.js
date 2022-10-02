@@ -34,11 +34,30 @@ module.exports = function (config) {
 			'karma-chrome-launcher',
 			'karma-safari-launcher',
 			'karma-firefox-launcher',
-			'karma-time-stats-reporter'
+			'karma-time-stats-reporter',
+			'karma-parallel',
 		],
 
 		// frameworks to use
-		frameworks: ['mocha', 'sinon', 'expect'],
+		frameworks: ['parallel', 'mocha', 'sinon', 'expect'],
+
+		// configure parallel test execution
+		parallelOptions: {
+			executors: 4, // Defaults to cpu-count - 1
+			// shardStrategy: 'round-robin'
+			shardStrategy: 'description-length'
+			// shardStrategy: 'custom'
+			// customShardStrategy: function(config) {
+			//   config.executors // number, the executors set above
+			//   config.shardIndex // number, the specific index for the shard currently running
+			//   config.description // string, the name of the top-level describe string. Useful //     for determining how to shard the current specs
+			//
+			//   // Re-implement a round-robin strategy
+			//   window.parallelDescribeCount = window.parallelDescribeCount || 0;
+			//   window.parallelDescribeCount++;
+			//   return window.parallelDescribeCount % config.executors === config.shardIndex
+			// }
+		},
 
 		// list of files / patterns to load in the browser
 		files: files,
